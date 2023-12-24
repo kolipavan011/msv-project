@@ -5,9 +5,8 @@
  */
 
 import { createApp } from 'vue';
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
 import App from "./components/App.vue";
+import router from './router';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -16,7 +15,7 @@ import App from "./components/App.vue";
  */
 
 const app = createApp(App)
-    .use(ElementPlus);
+    .use(router);
 
 /**
  * Finally, we will attach the application instance to a HTML element with

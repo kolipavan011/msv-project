@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ViewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('dashmin')->group(function () {
+    Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('dashmin');
 });
