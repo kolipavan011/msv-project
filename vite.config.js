@@ -23,6 +23,11 @@ export default defineConfig({
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
+            icon: '/node_modules/vue-material-design-icons'
         },
+        extensions: [
+            ".vue",
+            ".js"
+        ]
     },
 });

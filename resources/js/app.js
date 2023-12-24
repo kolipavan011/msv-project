@@ -7,6 +7,7 @@
 import { createApp } from 'vue';
 import App from "./components/App.vue";
 import router from './router';
+import request from './mixins/request';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,7 +16,8 @@ import router from './router';
  */
 
 const app = createApp(App)
-    .use(router);
+    .use(router)
+    .mixin(request);
 
 /**
  * Finally, we will attach the application instance to a HTML element with
