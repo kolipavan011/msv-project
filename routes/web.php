@@ -22,7 +22,7 @@ Route::view('/', 'welcome');
 
 Route::prefix('api')->group(function () {
     // Users Route
-    Route::prefix('user')->group(function () {
+    Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::post('/create', [UserController::class, 'create']);
         Route::post('/{id}', [UserController::class, 'update']);
@@ -30,7 +30,7 @@ Route::prefix('api')->group(function () {
     });
 
     // Posts Route
-    Route::prefix('Posts')->group(function () {
+    Route::prefix('posts')->group(function () {
         Route::get('/', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
         Route::post('/{id}', [PostController::class, 'update']);
@@ -38,7 +38,7 @@ Route::prefix('api')->group(function () {
     });
 
     // Posts Route
-    Route::prefix('Videos')->group(function () {
+    Route::prefix('videos')->group(function () {
         Route::get('/', [VideoController::class, 'index']);
         Route::post('/create', [VideoController::class, 'create']);
         Route::post('/{id}', [VideoController::class, 'update']);
@@ -46,7 +46,7 @@ Route::prefix('api')->group(function () {
     });
 
     // Posts Route
-    Route::prefix('Folders')->group(function () {
+    Route::prefix('folders')->group(function () {
         Route::get('/', [FolderController::class, 'index']);
         Route::post('/create', [FolderController::class, 'create']);
         Route::post('/{id}', [FolderController::class, 'update']);
