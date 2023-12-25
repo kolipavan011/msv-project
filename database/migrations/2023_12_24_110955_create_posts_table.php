@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('featured_image')->nullable();
             $table->string('seo_title')->nullable();
             $table->string('seo_desc')->nullable();
+            $table->tinyInteger('post_type');
             $table->bigInteger('user_id');
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->index('published_at');
             $table->unique(['slug', 'user_id']);
         });
 
