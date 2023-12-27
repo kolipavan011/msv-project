@@ -16,6 +16,8 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "lodash": "^4.17.21",
+        "nprogress": "^0.2.0",
         "vue-material-design-icons": "^5.2.0",
         "vue-router": "^4.2.5"
     }

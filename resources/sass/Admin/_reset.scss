@@ -3,3 +3,11 @@
 a {
     text-decoration: none;
 }
+
+// Pagination hack
+
+.pagination {
+    li:last-child,li:first-child {
+        display: none;
+    }
+}

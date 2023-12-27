@@ -19,18 +19,27 @@
                         <NoteIcon :size="42" />
                         <div>Posts</div>
                     </router-link>
-                    <div class="icon-item text-white text-center">
+                    <router-link
+                        to="/categories"
+                        class="icon-item text-white text-center"
+                    >
                         <NotebookIcon :size="42" />
                         <div>Category</div>
-                    </div>
-                    <div class="icon-item text-white text-center">
+                    </router-link>
+                    <router-link
+                        to="/tags"
+                        class="icon-item text-white text-center"
+                    >
                         <TagIcon :size="42" />
                         <div>Tags</div>
-                    </div>
-                    <div class="icon-item text-white text-center">
+                    </router-link>
+                    <router-link
+                        to="/pages"
+                        class="icon-item text-white text-center"
+                    >
                         <BookIcon :size="42" />
                         <div>Pages</div>
-                    </div>
+                    </router-link>
                     <div class="icon-item text-white text-center">
                         <RobotIcon :size="42" />
                         <div>Vidbot</div>
@@ -42,12 +51,7 @@
                 </div>
             </div>
             <div id="app-main" class="col-md-11">
-                <header class="header mb-3">
-                    <page-header />
-                </header>
-                <main>
-                    <router-view></router-view>
-                </main>
+                <router-view></router-view>
             </div>
         </div>
     </div>
@@ -61,7 +65,6 @@ import RobotIcon from "icon/Robot";
 import NoteIcon from "icon/Note";
 import NotebookIcon from "icon/NoteBook";
 import SettingIcon from "icon/AccountSettings";
-import PageHeader from "../components/Header";
 
 export default {
     name: "app",
@@ -74,7 +77,11 @@ export default {
         RobotIcon,
         NotebookIcon,
         NoteIcon,
-        PageHeader,
+    },
+    data() {
+        return {
+            pageTitle: "Dashmin",
+        };
     },
 };
 </script>

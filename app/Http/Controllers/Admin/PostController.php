@@ -16,16 +16,20 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
+        $status = request()->query('status', 'drafted');
+        $type = request()->query('type', POST::POST);
+
         $posts = Post::query()
             ->select('id', 'title', 'featured_image', 'created_at')
-            ->where('post_type', Post::POST)
-            ->when(request()->query('status', 'draft') === 'published', function (Builder $query) {
+            ->where('post_type', $type)
+            ->when($status == 'published', function (Builder $query) {
                 return $query->where('published_at', '<=', now()->toDateTimeString());
             }, function (Builder $query) {
                 return $query->where('published_at', '=', null);
             })
             ->latest()
-            ->paginate();
+            ->paginate()
+            ->onEachSide(1);
 
         return response()->json($posts);
     }

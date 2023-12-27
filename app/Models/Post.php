@@ -50,4 +50,13 @@ class Post extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that should be casted.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+    ];
 }
