@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <PageHeader :title="$route.name" />
+        <PageHeader :title="$route.meta.title" />
 
         <main class="container-fluid">
             <!-- Display Toolbar -->
@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <router-link
                                 :to="{
-                                    name: 'posts.edit',
+                                    name: $route.meta.route,
                                     params: { id: post.id },
                                 }"
                                 class="text-dark fw-bold"

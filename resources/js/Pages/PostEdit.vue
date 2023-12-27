@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <PageHeader title="Post Edit" />
+        <PageHeader :title="$route.meta.title" />
 
         <main class="container-fluid" v-show="isReady">
             <!-- toolbar -->
@@ -15,7 +15,11 @@
                 >
                     Save
                 </button>
-                <button type="button" class="btn btn-success btn-sm">
+                <button
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    @click="publishPost"
+                >
                     Publish
                 </button>
             </div>
@@ -177,6 +181,14 @@ export default {
                 .catch((err) => {
                     NProgress.done();
                 });
+        },
+
+        publishPost() {
+            this.$vbsModal.confirm({
+                title: "Unsaved Changes",
+                message: "Are you sure you want to leave this page?",
+                center: true,
+            });
         },
     },
 

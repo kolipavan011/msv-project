@@ -18,6 +18,7 @@
     "dependencies": {
         "lodash": "^4.17.21",
         "nprogress": "^0.2.0",
+        "vue-bs-modal": "^0.7.9",
         "vue-material-design-icons": "^5.2.0",
         "vue-router": "^4.2.5",
         "vue3-editor": "^0.1.1"

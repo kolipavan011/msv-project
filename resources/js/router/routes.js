@@ -10,6 +10,9 @@ const routes = [
     path: '/dash',
     name: 'dashmin',
     component: () => import('../Pages/Home.vue'),
+    meta: {
+      title: 'Dashmin Overview',
+    }
   },
   {
     path: '/posts',
@@ -17,6 +20,8 @@ const routes = [
     component: () => import('../Pages/PostList.vue'),
     meta: {
       type: 1,
+      title: 'Posts Overview',
+      route:'posts.edit'
     }
   },
   {
@@ -25,6 +30,7 @@ const routes = [
     component: () => import('../Pages/PostEdit.vue'),
     meta: {
       type: 1,
+      title: 'Post Edit',
     }
   },
   {
@@ -33,6 +39,17 @@ const routes = [
     component: () => import('../Pages/PostList.vue'),
     meta: {
       type: 2,
+      title: 'Categories Overview',
+      route:'categories.edit'
+    }
+  },
+  {
+    path: '/categories/:id',
+    name: 'categories.edit',
+    component: () => import('../Pages/PostEdit.vue'),
+    meta: {
+      type: 2,
+      title: 'Category Edit',
     }
   },
   {
@@ -41,6 +58,17 @@ const routes = [
     component: () => import('../Pages/PostList.vue'),
     meta: {
       type: 3,
+      title: 'Tags Overview',
+      route: 'tags.edit',
+    }
+  },
+  {
+    path: '/tags/:id',
+    name: 'tags.edit',
+    component: () => import('../Pages/PostEdit.vue'),
+    meta: {
+      type: 3,
+      title: 'Tags Edit',
     }
   },
   {
@@ -49,6 +77,17 @@ const routes = [
     component: () => import('../Pages/PostList.vue'),
     meta: {
       type: 4,
+      title: 'Pages Overview',
+      route: 'pages.edit',
+    }
+  },
+  {
+    path: '/pages/:id',
+    name: 'pages.edit',
+    component: () => import('../Pages/PostEdit.vue'),
+    meta: {
+      type: 4,
+      title: 'Pages Edit',
     }
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/dash' },

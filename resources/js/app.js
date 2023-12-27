@@ -5,6 +5,7 @@
  */
 
 import { createApp } from 'vue';
+import Modal from "vue-bs-modal";
 import App from "./components/App.vue";
 import router from './router';
 import request from './mixins/request';
@@ -17,6 +18,7 @@ import request from './mixins/request';
 
 const app = createApp(App)
     .use(router)
+    .use(Modal)
     .mixin(request);
 
 /**

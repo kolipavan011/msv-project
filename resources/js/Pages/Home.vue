@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <PageHeader title="Home" />
+        <PageHeader :title="$route.meta.title" />
 
         <main class="container-fluid">
             <h2>Home</h2>
