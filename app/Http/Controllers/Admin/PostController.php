@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -45,12 +46,37 @@ class PostController extends Controller
     }
 
     /**
-     * Store Newly Created Post to Database
+     * Show single post resource for given ID
      *
      * @return JsonResponse
      */
-    public function store(): JsonResponse
+    public function show(string $id): JsonResponse
     {
+        $post = Post::query()
+            ->select('id', 'title', 'slug', 'featured_image', 'seo_title', 'seo_desc', 'body', 'published_at')
+            ->findOrFail($id);
+
+        return response()->json($post);
+    }
+
+    /**
+     * Store or Update Newly Created Post to Database
+     *
+     * @return JsonResponse
+     */
+    public function store(string $id, PostRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+
+        $post = Post::query()
+            ->find($id);
+
+        if (!$post) {
+            $post = new Post(['user_id' => 1]);
+        }
+
+        $post->fill($data)->save();
+
         return response()->json(['massage' => 'success']);
     }
 

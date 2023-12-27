@@ -52,6 +52,13 @@ class Post extends Model
     protected $primaryKey = 'id';
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * The attributes that should be casted.
      *
      * @var array

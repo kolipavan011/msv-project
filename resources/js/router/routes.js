@@ -20,6 +20,14 @@ const routes = [
     }
   },
   {
+    path: '/posts/:id',
+    name: 'posts.edit',
+    component: () => import('../Pages/PostEdit.vue'),
+    meta: {
+      type: 1,
+    }
+  },
+  {
     path: '/categories',
     name: 'categories',
     component: () => import('../Pages/PostList.vue'),

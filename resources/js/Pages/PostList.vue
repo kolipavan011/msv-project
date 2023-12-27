@@ -32,7 +32,13 @@
                 <div class="col" v-for="post in posts">
                     <div class="card h-100">
                         <div class="card-body">
-                            <router-link to="/dash" class="text-dark fw-bold">
+                            <router-link
+                                :to="{
+                                    name: 'posts.edit',
+                                    params: { id: post.id },
+                                }"
+                                class="text-dark fw-bold"
+                            >
                                 <h5 class="card-title">
                                     {{ post.title }}
                                 </h5>

@@ -25,15 +25,16 @@ Route::prefix('api')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::post('/create', [UserController::class, 'create']);
-        Route::post('/{id}', [UserController::class, 'update']);
+        Route::post('/{id}', [UserController::class, 'store']);
         Route::delete('/{id}', [UserController::class, 'destroy']);
     });
 
     // Posts Route
     Route::prefix('posts')->group(function () {
         Route::get('/', [PostController::class, 'index']);
+        Route::get('/{id}', [PostController::class, 'show']);
         Route::post('/create', [PostController::class, 'create']);
-        Route::post('/{id}', [PostController::class, 'update']);
+        Route::post('/{id}', [PostController::class, 'store']);
         Route::delete('/{id}', [PostController::class, 'destroy']);
     });
 
