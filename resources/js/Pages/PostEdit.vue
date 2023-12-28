@@ -97,6 +97,34 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row" v-if="false">
+                    <div class="col-12 col-md-6">
+                        <VueMultiselect
+                            v-model="post.categories"
+                            :options="categories"
+                            :multiple="true"
+                            :taggable="true"
+                            :close-on-select="false"
+                            label="title"
+                            track-by="id"
+                        >
+                        </VueMultiselect>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <VueMultiselect
+                            v-model="post.tags"
+                            :options="tags"
+                            :multiple="true"
+                            :taggable="true"
+                            :close-on-select="false"
+                            label="title"
+                            track-by="id"
+                        >
+                        </VueMultiselect>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-12">
                         <label for="postBody" class="form-label"
@@ -124,6 +152,7 @@
 </template>
 <script>
 import PageHeader from "../components/Header";
+import VueMultiselect from "vue-multiselect";
 import _get from "lodash/get";
 import NProgress from "nprogress";
 import { VueEditor } from "vue3-editor";
@@ -135,6 +164,7 @@ export default {
     components: {
         PageHeader,
         VueEditor,
+        VueMultiselect,
     },
 
     data() {
@@ -148,6 +178,8 @@ export default {
                 seo_desc: null,
                 body: null,
                 published_at: null,
+                categories: [],
+                tags: [],
             },
             customToolbar: [
                 [{ header: [false, 2, 3, 4, 5, 6] }],
@@ -155,6 +187,8 @@ export default {
                 [{ list: "ordered" }],
             ],
             isReady: false,
+            categories: [],
+            tags: [],
         };
     },
 
