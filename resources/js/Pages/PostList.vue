@@ -6,7 +6,11 @@
             <!-- Display Toolbar -->
             <div class="row justify-content-between mb-5">
                 <div class="col-md-3 col-5">
-                    <button type="button" class="btn btn-primary btn-sm">
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="createPost"
+                    >
                         Create New
                     </button>
                 </div>
@@ -119,6 +123,8 @@
 import NProgress from "nprogress";
 import PageHeader from "../components/Header";
 import _extend from "lodash/extend";
+import PostPublishModal from "../components/modals/PostPublishModal";
+import PostAddModal from "../components/modals/PostAddModal.vue";
 
 const ERR_NO_POST = "No post found";
 const ERR_500 = "Something went wrong ..!";
@@ -178,6 +184,14 @@ export default {
                     this.errorIcon = "text-danger";
                     NProgress.done();
                 });
+        },
+
+        createPost() {
+            this.$vbsModal.open({
+                content: PostAddModal,
+                staticBackdrop: true,
+                center: true,
+            });
         },
     },
 

@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -23,15 +24,12 @@ class PostController extends Controller
         $posts = Post::query()
             ->select('id', 'title', 'featured_image', 'created_at')
             ->where('post_type', $type)
-            ->when($status == 'published', function (Builder $query) {
-                return $query->where('published_at', '<=', now()->toDateTimeString());
+            ->when($status == 'published' && $type == POST::POST, function (Builder $query) {
+                return $query->where('published_at', '<=', now()->toDateTimeString())
+                    ->latest('published_at');
             }, function (Builder $query) {
-                return $query->where('published_at', '=', null);
-            })
-            ->when($type == POST::POST, function (Builder $query) {
-                return $query->latest('published_at');
-            }, function (Builder $query) {
-                return $query->latest();
+                return $query->where('published_at', '=', null)
+                    ->latest();
             })
             ->paginate()
             ->onEachSide(1);
@@ -40,13 +38,28 @@ class PostController extends Controller
     }
 
     /**
-     * Create Post
+     * Create New Post boilarplate
      *
      * @return JsonResponse
      */
     public function create(): JsonResponse
     {
-        return response()->json(['massage' => 'success']);
+        $title = request()->input('title', "New Post " . time());
+        $type = in_array(request()->input('type', 1), [1, 2, 3, 4]) ? request()->input('type', 1) : 1;
+
+        $post = new Post([
+            'title' => $title,
+            'slug' => Str::slug($title, '-'),
+            'post_type' => $type,
+            'user_id' => 1
+        ]);
+
+        $post->save();
+
+        return response()->json([
+            'massage' => 'success',
+            'id' => $post->id
+        ]);
     }
 
     /**

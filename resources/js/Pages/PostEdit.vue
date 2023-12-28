@@ -13,13 +13,24 @@
                 "
                 v-if="isReady"
             >
-                <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
-                    @click="savePost"
-                >
-                    Save
-                </button>
+                <div>
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="savePost"
+                        v-if="$route.meta.type == 1"
+                    >
+                        Videos
+                    </button>
+                    <span class="mx-2"></span>
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="savePost"
+                    >
+                        Save
+                    </button>
+                </div>
                 <button
                     type="button"
                     class="btn btn-success btn-sm"
