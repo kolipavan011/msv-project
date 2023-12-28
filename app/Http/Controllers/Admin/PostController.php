@@ -28,7 +28,11 @@ class PostController extends Controller
             }, function (Builder $query) {
                 return $query->where('published_at', '=', null);
             })
-            ->latest()
+            ->when($type == POST::POST, function (Builder $query) {
+                return $query->latest('published_at');
+            }, function (Builder $query) {
+                return $query->latest();
+            })
             ->paginate()
             ->onEachSide(1);
 

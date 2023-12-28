@@ -5,7 +5,12 @@
         <main class="container-fluid" v-show="isReady">
             <!-- toolbar -->
             <div
-                class="d-flex justify-content-between mb-4 pb-4 border-bottom"
+                class="d-flex mb-4 pb-4 border-bottom"
+                :class="
+                    $route.meta.type == 1
+                        ? 'justify-content-between'
+                        : 'justify-content-end'
+                "
                 v-if="isReady"
             >
                 <button
@@ -18,7 +23,8 @@
                 <button
                     type="button"
                     class="btn btn-success btn-sm"
-                    @click="publishPost"
+                    @click="openPublishModal"
+                    v-if="$route.meta.type == 1"
                 >
                     Publish
                 </button>
@@ -121,6 +127,7 @@ import PageHeader from "../components/Header";
 import _get from "lodash/get";
 import NProgress from "nprogress";
 import { VueEditor } from "vue3-editor";
+import PostPublishModal from "../components/modals/PostPublishModal";
 
 export default {
     name: "posts-edit",
@@ -165,6 +172,7 @@ export default {
                     this.post.seo_title = _get(data, "seo_title", "");
                     this.post.seo_desc = _get(data, "seo_desc", "");
                     this.post.body = _get(data, "body", "");
+                    this.post.published_at = _get(data, "published_at", "");
                 })
                 .catch((err) => {
                     this.$router.go(-1);
@@ -183,11 +191,25 @@ export default {
                 });
         },
 
-        publishPost() {
-            this.$vbsModal.confirm({
-                title: "Unsaved Changes",
-                message: "Are you sure you want to leave this page?",
+        publishPost(data) {
+            this.post.published_at = data;
+            this.$vbsModal.close();
+            this.savePost();
+        },
+
+        openPublishModal() {
+            if (this.$route.meta.type != 1) return;
+
+            this.$vbsModal.open({
+                content: PostPublishModal,
+                staticBackdrop: true,
                 center: true,
+                contentProps: {
+                    published_date: this.post.published_at,
+                },
+                contentEmits: {
+                    onUpdate: this.publishPost,
+                },
             });
         },
     },
