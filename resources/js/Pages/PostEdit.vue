@@ -25,6 +25,14 @@
                     <span class="mx-2"></span>
                     <button
                         type="button"
+                        class="btn btn-danger btn-sm"
+                        @click="deletePost"
+                    >
+                        Delete
+                    </button>
+                    <span class="mx-2"></span>
+                    <button
+                        type="button"
                         class="btn btn-primary btn-sm"
                         @click="savePost"
                     >
@@ -256,6 +264,31 @@ export default {
                     onUpdate: this.publishPost,
                 },
             });
+        },
+
+        deletePost() {
+            this.$vbsModal
+                .confirm({
+                    title: "Delete Post",
+                    message: "Do you want to delete this post ?",
+                    center: true,
+                    rightBtnText: "Delete",
+                })
+                .then((data) => {
+                    if (!data) return;
+
+                    NProgress.start();
+                    this.request()
+                        .delete("/posts/" + this.id)
+                        .then((data) => {
+                            NProgress.done();
+                            this.$router.go(-1);
+                        })
+                        .catch((error) => {
+                            NProgress.done();
+                            console.log(error);
+                        });
+                });
         },
     },
 

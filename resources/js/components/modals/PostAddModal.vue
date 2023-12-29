@@ -1,6 +1,8 @@
 <template>
     <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Add New Post</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">
+            Add new {{ $route.name }}
+        </h5>
         <button
             type="button"
             class="btn-close"
@@ -17,7 +19,7 @@
             id="published_at"
             style="outline: 0"
             v-model="title"
-            placeholder="Add Post ..."
+            placeholder="Add Title ..."
         />
     </div>
     <div class="modal-footer">
