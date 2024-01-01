@@ -90,6 +90,14 @@ const routes = [
       title: 'Pages Edit',
     }
   },
+  {
+    path: '/vidbot',
+    name: 'vidbot',
+    component: () => import('../Pages/Vidbot.vue'),
+    meta: {
+      title: 'Vidbot',
+    }
+  },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/dash' },
 ]
 

@@ -40,10 +40,13 @@
                         <BookIcon :size="42" />
                         <div>Pages</div>
                     </router-link>
-                    <div class="icon-item text-white text-center">
+                    <router-link
+                        to="/vidbot"
+                        class="icon-item text-white text-center"
+                    >
                         <RobotIcon :size="42" />
                         <div>Vidbot</div>
-                    </div>
+                    </router-link>
                     <div class="icon-item text-white text-center">
                         <SettingIcon :size="42" />
                         <div>Setting</div>
