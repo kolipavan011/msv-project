@@ -91,6 +91,14 @@ const routes = [
     }
   },
   {
+    path: '/videos',
+    name: 'videos',
+    component: () => import('../Pages/Videos.vue'),
+    meta: {
+      title: 'Videos',
+    }
+  },
+  {
     path: '/vidbot',
     name: 'vidbot',
     component: () => import('../Pages/Vidbot.vue'),

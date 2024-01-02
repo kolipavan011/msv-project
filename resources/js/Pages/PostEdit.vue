@@ -158,6 +158,7 @@
                 </div>
             </form>
         </main>
+        <!-- spinner -->
         <div
             class="d-flex justify-content-center align-items-center"
             v-if="!isReady"

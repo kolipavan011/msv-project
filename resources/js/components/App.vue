@@ -20,6 +20,13 @@
                         <div>Posts</div>
                     </router-link>
                     <router-link
+                        to="/videos"
+                        class="icon-item text-white text-center"
+                    >
+                        <MovieIcon :size="42" />
+                        <div>Videos</div>
+                    </router-link>
+                    <router-link
                         to="/categories"
                         class="icon-item text-white text-center"
                     >
@@ -68,6 +75,7 @@ import RobotIcon from "icon/Robot";
 import NoteIcon from "icon/Note";
 import NotebookIcon from "icon/NoteBook";
 import SettingIcon from "icon/AccountSettings";
+import MovieIcon from "icon/Movie";
 
 export default {
     name: "app",
@@ -80,6 +88,7 @@ export default {
         RobotIcon,
         NotebookIcon,
         NoteIcon,
+        MovieIcon,
     },
     data() {
         return {
