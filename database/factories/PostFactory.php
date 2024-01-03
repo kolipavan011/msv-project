@@ -24,7 +24,7 @@ class PostFactory extends Factory
             'seo_title' => fake()->sentence(),
             'seo_desc' => fake()->sentence(),
             'post_type' => 1,
-            'user_id' => 1
+            'user_id' => 1,
         ];
     }
 }

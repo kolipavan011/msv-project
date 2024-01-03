@@ -10,6 +10,13 @@ class Folder extends Model
     use HasFactory;
 
     /**
+     * Id for a Root Folder.
+     *
+     * @const int
+     */
+    public const ROOT = 1;
+
+    /**
      * The table associated with the model.
      *
      * @var string

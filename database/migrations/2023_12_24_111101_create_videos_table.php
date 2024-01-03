@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('path');
             $table->string('poster')->nullable();
             $table->string('size')->nullable();
+            $table->bigInteger('folder_id');
             $table->bigInteger('user_id');
             $table->softDeletes();
             $table->timestamps();

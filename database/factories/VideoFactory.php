@@ -21,6 +21,7 @@ class VideoFactory extends Factory
             'path' => url('/video.mp4'),
             'poster' => url('poster.jpg'),
             'size' => '3.2MB',
+            'folder_id' => 1,
             'user_id' => 1,
         ];
     }
