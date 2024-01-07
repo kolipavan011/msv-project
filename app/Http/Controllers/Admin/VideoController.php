@@ -10,7 +10,29 @@ use Illuminate\Http\JsonResponse;
 class VideoController extends Controller
 {
     /**
-     * Create Post
+     * Send Json response of folder and videos
+     *
+     * @return JsonResponse
+     */
+    public function index(string $id): JsonResponse
+    {
+        $folder = Folder::query()
+            ->select('id', 'name as title')
+            ->where('parent_id', $id)
+            ->get();
+
+        $videos = Video::query()
+            ->select('id', 'title', 'path', 'poster', 'size', 'created_at')
+            ->where('folder_id', $id)
+            ->get();
+
+        return response()->json([...$folder, ...$videos]);
+    }
+
+    /**
+     * Create video entry in database
+     * As downloaded from youtube
+     * Save in storage
      *
      * @return JsonResponse
      */
@@ -20,7 +42,7 @@ class VideoController extends Controller
     }
 
     /**
-     * Store Newly Created Post to Database
+     * Update Videos metadata to Database
      *
      * @return JsonResponse
      */
@@ -30,7 +52,7 @@ class VideoController extends Controller
     }
 
     /**
-     * Delete Post From Database (soft_delete)
+     * Delete Video From Database (soft_delete)
      *
      * @return JsonResponse
      */

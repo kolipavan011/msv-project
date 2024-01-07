@@ -40,7 +40,7 @@ Route::prefix('api')->group(function () {
 
     // Posts Route
     Route::prefix('videos')->group(function () {
-        Route::get('/', [VideoController::class, 'index']);
+        Route::get('/{id}', [VideoController::class, 'index']);
         Route::post('/create', [VideoController::class, 'create']);
         Route::post('/{id}', [VideoController::class, 'update']);
         Route::delete('/{id}', [VideoController::class, 'destroy']);

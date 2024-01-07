@@ -46,13 +46,25 @@
                 class="row row-cols-2 row-cols-sm-4 row-cols-md-4 row-cols-lg-6 g-3"
                 v-if="isReady"
             >
-                <div class="col" v-for="item in videos">
-                    <div class="card">
-                        <img src="/storage/image.jpg" alt=".." />
+                <div class="col">
+                    <div class="card border-0">
+                        <img src="/storage/prev-folder.jpg" />
                         <div class="card-body">
-                            <p class="card-text text-truncate">
-                                Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Libero, est?
+                            <p class="card-text text-truncate text-center">
+                                <small><strong>Go Back</strong></small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" v-for="item in videos">
+                    <div class="card border-0">
+                        <img :src="item.poster" alt=".." />
+                        <div class="card-body">
+                            <p
+                                class="card-text text-truncate text-center"
+                                :title="item.title"
+                            >
+                                <small>{{ item.title }}</small>
                             </p>
                         </div>
                     </div>
@@ -73,6 +85,9 @@
 </template>
 <script>
 import PageHeader from "../components/Header";
+import extend from "lodash/extend";
+
+const _path = "/storage/next-folder.jpg";
 
 export default {
     name: "home",
@@ -84,10 +99,35 @@ export default {
     data() {
         return {
             canSelect: false,
-            isReady: true,
+            isReady: false,
             selectedItem: [],
-            videos: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            videos: [],
         };
+    },
+
+    methods: {
+        fetchVideos(folder_id) {
+            this.isReady = false;
+
+            this.request()
+                .get("/videos/" + folder_id)
+                .then(({ data }) => {
+                    this.isReady = true;
+                    this.videos = data.map((i) => {
+                        i.poster = i.poster ? i.poster : _path;
+                        return i;
+                    });
+                    console.log(this.videos);
+                })
+                .catch((error) => {
+                    this.isReady = true;
+                    console.log(error);
+                });
+        },
+    },
+
+    mounted() {
+        this.fetchVideos(1);
     },
 };
 </script>
