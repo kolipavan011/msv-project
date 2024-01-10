@@ -206,7 +206,21 @@ export default {
         },
 
         addVideo(video) {
-            video.downloaded = true;
+            NProgress.start();
+            this.request()
+                .post("/videos/create", {
+                    videoId: video.videoId,
+                    title: video.title,
+                    keyword: this.keyword,
+                })
+                .then(({ data }) => {
+                    console.log(data);
+                    video.downloaded = true;
+                    NProgress.done();
+                })
+                .catch((error) => {
+                    NProgress.done();
+                });
         },
     },
 };
