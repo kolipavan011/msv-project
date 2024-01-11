@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                <div class="row" v-if="false">
+                <div class="row mb-4">
                     <div class="col-12 col-md-6">
                         <VueMultiselect
                             v-model="post.categories"

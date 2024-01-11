@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import "vue-multiselect/dist/vue-multiselect.css";
 import { createApp } from 'vue';
 import Modal from "vue-bs-modal";
 import App from "./components/App.vue";
