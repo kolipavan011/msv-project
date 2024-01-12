@@ -29,4 +29,11 @@ class Folder extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 }

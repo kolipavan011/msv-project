@@ -123,7 +123,6 @@
 import NProgress from "nprogress";
 import PageHeader from "../components/Header";
 import _extend from "lodash/extend";
-import PostPublishModal from "../components/modals/PostPublishModal";
 import PostAddModal from "../components/modals/PostAddModal.vue";
 
 const ERR_NO_POST = "No post found";

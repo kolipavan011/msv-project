@@ -15,7 +15,15 @@ class FolderController extends Controller
      */
     public function create(): JsonResponse
     {
-        return response()->json(['massage' => 'success']);
+        $folderName = request('name', 'folder-name');
+        $folderParent = request('parent', Folder::ROOT);
+
+        Folder::create([
+            'name' => $folderName,
+            'parent_id' => $folderParent,
+        ])->save();
+
+        return response()->json(['massage' => $folderName]);
     }
 
     /**

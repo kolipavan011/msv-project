@@ -36,7 +36,11 @@
                     </div>
                 </div>
                 <div class="col-6 text-end">
-                    <button type="button" class="btn btn-warning btn-sm">
+                    <button
+                        type="button"
+                        class="btn btn-warning btn-sm"
+                        @click="createFolder()"
+                    >
                         New Folder
                     </button>
                 </div>
@@ -46,8 +50,8 @@
                 class="row row-cols-2 row-cols-sm-4 row-cols-md-4 row-cols-lg-6 g-3"
                 v-if="isReady"
             >
-                <div class="col">
-                    <div class="card border-0">
+                <div class="col" v-show="folderTrack.length > 1">
+                    <div class="card border-0" @click="prevFolder()">
                         <img src="/storage/prev-folder.jpg" />
                         <div class="card-body">
                             <p class="card-text text-truncate text-center">
@@ -57,7 +61,7 @@
                     </div>
                 </div>
                 <div class="col" v-for="item in videos">
-                    <div class="card border-0">
+                    <div class="card border-0" @click="openFolder(item.id)">
                         <img :src="item.poster" alt=".." />
                         <div class="card-body">
                             <p
@@ -85,7 +89,7 @@
 </template>
 <script>
 import PageHeader from "../components/Header";
-import extend from "lodash/extend";
+import FolderAddModal from "../components/modals/FolderAddModal.vue";
 
 const _path = "/storage/next-folder.jpg";
 
@@ -102,12 +106,15 @@ export default {
             isReady: false,
             selectedItem: [],
             videos: [],
+            folderTrack: [1],
         };
     },
 
     methods: {
-        fetchVideos(folder_id) {
+        fetchVideos() {
             this.isReady = false;
+
+            let folder_id = this.folderTrack[this.folderTrack.length - 1];
 
             this.request()
                 .get("/videos/" + folder_id)
@@ -117,17 +124,40 @@ export default {
                         i.poster = i.poster ? i.poster : _path;
                         return i;
                     });
-                    console.log(this.videos);
                 })
                 .catch((error) => {
                     this.isReady = true;
                     console.log(error);
                 });
         },
+
+        openFolder(id) {
+            this.folderTrack.push(id);
+            this.fetchVideos();
+        },
+
+        prevFolder() {
+            this.folderTrack.pop();
+            this.fetchVideos();
+        },
+
+        createFolder() {
+            this.$vbsModal.open({
+                content: FolderAddModal,
+                staticBackdrop: true,
+                center: true,
+                contentEmits: {
+                    onCreate: () => {
+                        this.$vbsModal.close();
+                        this.fetchVideos();
+                    },
+                },
+            });
+        },
     },
 
     mounted() {
-        this.fetchVideos(1);
+        this.fetchVideos();
     },
 };
 </script>

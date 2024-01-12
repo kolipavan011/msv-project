@@ -7,6 +7,7 @@
 import "vue-multiselect/dist/vue-multiselect.css";
 import { createApp } from 'vue';
 import Modal from "vue-bs-modal";
+import Toaster from "@meforma/vue-toaster";
 import App from "./components/App.vue";
 import router from './router';
 import request from './mixins/request';
@@ -20,6 +21,7 @@ import request from './mixins/request';
 const app = createApp(App)
     .use(router)
     .use(Modal)
+    .use(Toaster,{position: "top"})
     .mixin(request);
 
 /**
