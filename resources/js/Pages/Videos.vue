@@ -22,16 +22,26 @@
                         <button
                             type="button"
                             class="btn btn-success btn-sm"
-                            v-if="canSelect"
+                            v-if="canSelect && !canPaste"
+                            @click="moveFolder()"
                         >
                             Move
                         </button>
                         <button
                             type="button"
                             class="btn btn-primary btn-sm"
-                            v-if="selectedItem.length > 0"
+                            v-if="canPaste"
+                            @click="pasteFolder()"
                         >
                             Paste
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-secondary btn-sm ms-2"
+                            v-show="canPaste || canSelect"
+                            @click="clearSelection()"
+                        >
+                            Clear
                         </button>
                     </div>
                 </div>
@@ -45,9 +55,25 @@
                     </button>
                 </div>
             </div>
+
+            <!-- breadcrub -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li
+                                class="breadcrumb-item"
+                                v-for="dir in folderTrack"
+                            >
+                                <a>{{ dir.title }}</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
             <!-- video list -->
             <div
-                class="row row-cols-2 row-cols-sm-4 row-cols-md-4 row-cols-lg-6 g-3"
+                class="row row-cols-2 row-cols-sm-4 row-cols-md-4 row-cols-lg-6 g-3 mb-4"
                 v-if="isReady"
             >
                 <div class="col" v-show="folderTrack.length > 1">
@@ -61,7 +87,11 @@
                     </div>
                 </div>
                 <div class="col" v-for="item in videos">
-                    <div class="card border-0" @click="openFolder(item.id)">
+                    <div
+                        class="card border border-primary"
+                        :class="item.isSelected ? 'border-4' : 'border-0'"
+                        @click="openFolder(item)"
+                    >
                         <img :src="item.poster" alt=".." />
                         <div class="card-body">
                             <p
@@ -90,6 +120,7 @@
 <script>
 import PageHeader from "../components/Header";
 import FolderAddModal from "../components/modals/FolderAddModal.vue";
+import VideoViewModal from "../components/modals/VideoViewModal.vue";
 
 const _path = "/storage/next-folder.jpg";
 
@@ -103,10 +134,11 @@ export default {
     data() {
         return {
             canSelect: false,
+            canPaste: false,
             isReady: false,
-            selectedItem: [],
             videos: [],
-            folderTrack: [1],
+            selectedItem: [],
+            folderTrack: [{ id: 1, title: "Home" }],
         };
     },
 
@@ -114,13 +146,15 @@ export default {
         fetchVideos() {
             this.isReady = false;
 
-            let folder_id = this.folderTrack[this.folderTrack.length - 1];
+            let folder_id = this.folderTrack[this.folderTrack.length - 1].id;
 
             this.request()
                 .get("/videos/" + folder_id)
                 .then(({ data }) => {
                     this.isReady = true;
                     this.videos = data.map((i) => {
+                        i.isSelected = false;
+                        i.type = i.poster ? "file" : "folder";
                         i.poster = i.poster ? i.poster : _path;
                         return i;
                     });
@@ -131,9 +165,26 @@ export default {
                 });
         },
 
-        openFolder(id) {
-            this.folderTrack.push(id);
-            this.fetchVideos();
+        openFolder(folder) {
+            if (folder.type == "folder") {
+                this.folderTrack.push(folder);
+                this.fetchVideos();
+                return;
+            }
+
+            if (this.canSelect && !this.canPaste) {
+                folder.isSelected = !folder.isSelected;
+                return;
+            }
+
+            this.$vbsModal.open({
+                content: VideoViewModal,
+                staticBackdrop: true,
+                center: true,
+                contentProps: {
+                    media: folder,
+                },
+            });
         },
 
         prevFolder() {
@@ -153,6 +204,45 @@ export default {
                     },
                 },
             });
+        },
+
+        moveFolder() {
+            this.canPaste = true;
+            this.videos.map((video) => {
+                if (video.type == "file" && video.isSelected) {
+                    this.selectedItem.push(video.id);
+                }
+            });
+        },
+
+        pasteFolder() {
+            let folder_id = this.folderTrack[this.folderTrack.length - 1].id;
+
+            this.isReady = false;
+            this.request()
+                .post("/videos/paste/" + folder_id, {
+                    folders: this.selectedItem,
+                })
+                .then(() => {
+                    this.selectedItem.length = 0;
+                    this.canPaste = false;
+                    this.canSelect = false;
+                    this.fetchVideos();
+                    this.$toast.success("Videos moved successfully");
+                })
+                .catch(({ response }) => {
+                    this.$toast.error(response.statusText);
+                    this.isReady = true;
+                });
+        },
+
+        clearSelection() {
+            this.videos.forEach((item) => {
+                item.isSelected = false;
+            });
+
+            this.canPaste = false;
+            this.canSelect = false;
         },
     },
 

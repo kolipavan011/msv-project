@@ -71,6 +71,16 @@ class VideoController extends Controller
      */
     public function store(string $id): JsonResponse
     {
+        $validatedData = request()->validate([
+            'title' => 'required',
+        ]);
+
+        Video::query()
+            ->where('id', $id)
+            ->update([
+                'title' => $validatedData['title']
+            ]);
+
         return response()->json(['massage' => "success"]);
     }
 
@@ -86,6 +96,21 @@ class VideoController extends Controller
             ->delete();
 
         return response()->json(null, 204);
+    }
+
+    function paste(string $id): JsonResponse
+    {
+        $data = request()->validate([
+            'folders' => 'array|required'
+        ]);
+
+        Video::query()
+            ->whereIn('id', $data['folders'])
+            ->update([
+                'folder_id' => $id
+            ]);
+
+        return response()->json(['massage' => 'success']);
     }
 
     /**
