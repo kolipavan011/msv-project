@@ -31,6 +31,7 @@ return new class extends Migration
         Schema::create('posts_videos', function (Blueprint $table) {
             $table->bigInteger('post_id');
             $table->bigInteger('video_id');
+            $table->unique(['post_id', 'video_id']);
         });
     }
 

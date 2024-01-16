@@ -71,6 +71,11 @@ class PostController extends Controller
     {
         $post = Post::query()
             ->select('id', 'title', 'slug', 'featured_image', 'seo_title', 'seo_desc', 'body', 'published_at')
+            ->when(request()->query('videos', 0) == 1, function (Builder $query) {
+                return $query->with('videos:id');
+            }, function (Builder $query) {
+                return $query;
+            })
             ->findOrFail($id);
 
         return response()->json($post);
@@ -93,6 +98,25 @@ class PostController extends Controller
         }
 
         $post->fill($data)->save();
+
+        return response()->json(['massage' => 'success']);
+    }
+
+    /**
+     * Attach videos to posts
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function attach(string $id): JsonResponse
+    {
+        $data = request()->validate([
+            'videos' => 'array|required'
+        ]);
+
+        Post::find($id)
+            ->videos()
+            ->sync($data['videos']);
 
         return response()->json(['massage' => 'success']);
     }

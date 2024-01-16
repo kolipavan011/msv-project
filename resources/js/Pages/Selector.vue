@@ -6,7 +6,12 @@
                     <a class="navbar-brand text-uppercase" href="#">{{
                         $route.meta.title
                     }}</a>
-                    <button type="button" class="btn btn-primary btn-sm">
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="syncVideo()"
+                        :disabled="!isReady"
+                    >
                         Done
                     </button>
                 </div>
@@ -16,7 +21,7 @@
         <main class="container-fluid">
             <!-- post info -->
             <div class="post-info mb-4">
-                <p class="text-secondary">
+                <p class="text-secondary" v-show="title">
                     {{ title }}
                     <span class="text-success fw-bold"
                         >( {{ selection.length }} Video selected )</span
@@ -26,8 +31,9 @@
             <!-- grid layout -->
             <div
                 class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mb-5"
+                v-show="isReady"
             >
-                <div class="col" v-show="folderTrack.length > 1 && isReady">
+                <div class="col" v-show="folderTrack.length > 1">
                     <div class="card border-0" @click="backFolder()">
                         <img src="/storage/prev-folder.jpg" />
                         <div class="card-body">
@@ -96,10 +102,15 @@ export default {
         async getPost() {
             this.isReady = false;
             this.request()
-                .get("/posts/" + this.id)
+                .get("/posts/" + this.id, {
+                    params: {
+                        videos: 1,
+                    },
+                })
                 .then(({ data }) => {
                     this.isReady = true;
                     this.title = data.title;
+                    this.selection = data.videos.map((i) => i.id);
                 })
                 .catch(({ response }) => {
                     this.isReady = true;
@@ -134,13 +145,29 @@ export default {
                 });
         },
 
+        syncVideo() {
+            this.isReady = false;
+
+            this.request()
+                .post("/posts/attach/" + this.id, {
+                    videos: this.selection,
+                })
+                .then((data) => {
+                    this.isReady = true;
+                    this.$toast.success("Syncing Done");
+                })
+                .catch(({ response }) => {
+                    this.isReady = true;
+                    this.$toast.error(response.statusText);
+                });
+        },
+
         handleClick(media) {
             if (media.type == "folder") {
                 this.folderTrack.push(media.id);
                 this.fetchMedia();
             } else {
                 let _index = this.selection.indexOf(media.id);
-                console.log(_index);
                 if (_index >= 0) {
                     this.selection.splice(_index, 1);
                     media.isSelected = false;

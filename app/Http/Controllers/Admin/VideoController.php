@@ -98,7 +98,12 @@ class VideoController extends Controller
         return response()->json(null, 204);
     }
 
-    function paste(string $id): JsonResponse
+    /**
+     * @param string id
+     * @return JsonResponse
+     */
+
+    public function paste(string $id): JsonResponse
     {
         $data = request()->validate([
             'folders' => 'array|required'

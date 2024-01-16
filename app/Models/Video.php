@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Video extends Model
 {
@@ -29,4 +30,14 @@ class Video extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Define users video relationship
+     *
+     * @return BelongsToMany
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Video::class, 'posts_videos', 'video_id', 'post_id');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -66,4 +67,14 @@ class Post extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+
+    /**
+     * Define users video relationship
+     *
+     * @return BelongsToMany
+     */
+    public function videos(): BelongsToMany
+    {
+        return $this->belongsToMany(Video::class, 'posts_videos', 'post_id', 'video_id');
+    }
 }

@@ -34,6 +34,7 @@ Route::prefix('api')->group(function () {
         Route::get('/', [PostController::class, 'index']);
         Route::get('/{id}', [PostController::class, 'show']);
         Route::post('/create', [PostController::class, 'create']);
+        Route::post('/attach/{id}', [PostController::class, 'attach']);
         Route::post('/{id}', [PostController::class, 'store']);
         Route::delete('/{id}', [PostController::class, 'destroy']);
     });
