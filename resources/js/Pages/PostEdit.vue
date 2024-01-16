@@ -14,14 +14,14 @@
                 v-if="isReady"
             >
                 <div>
-                    <button
+                    <router-link
                         type="button"
                         class="btn btn-primary btn-sm"
-                        @click="savePost"
                         v-if="$route.meta.type == 1"
+                        :to="{ name: 'selector', params: { id: id } }"
                     >
                         Videos
-                    </button>
+                    </router-link>
                     <span class="mx-2"></span>
                     <button
                         type="button"

@@ -99,6 +99,14 @@ const routes = [
     }
   },
   {
+    path: '/selector/:id',
+    name: 'selector',
+    component: () => import('../Pages/Selector.vue'),
+    meta: {
+      title: 'Select Video',
+    }
+  },
+  {
     path: '/vidbot',
     name: 'vidbot',
     component: () => import('../Pages/Vidbot.vue'),
