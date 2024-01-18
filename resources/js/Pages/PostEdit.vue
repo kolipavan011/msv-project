@@ -80,13 +80,22 @@
                             <label for="postImage" class="form-label"
                                 >Featured Image</label
                             >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="postImage"
-                                placeholder="Post image .."
-                                v-model="post.featured_image"
-                            />
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Select feature image"
+                                    v-model="post.featured_image"
+                                    readonly
+                                />
+                                <button
+                                    class="btn btn-secondary"
+                                    type="button"
+                                    id="button-addon2"
+                                >
+                                    New Image
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
@@ -117,7 +126,7 @@
                     </div>
                 </div>
 
-                <div class="row mb-4">
+                <div class="row mb-4" v-if="$route.meta.type == 1">
                     <div class="col-12 col-md-6">
                         <VueMultiselect
                             v-model="post.categories"
@@ -220,13 +229,25 @@ export default {
                 .get("/posts/" + this.id)
                 .then(({ data }) => {
                     this.isReady = true;
-                    this.post.title = _get(data, "title", "");
-                    this.post.slug = _get(data, "slug", "");
-                    this.post.featured_image = _get(data, "featured_image", "");
-                    this.post.seo_title = _get(data, "seo_title", "");
-                    this.post.seo_desc = _get(data, "seo_desc", "");
-                    this.post.body = _get(data, "body", "");
-                    this.post.published_at = _get(data, "published_at", "");
+                    this.post.title = _get(data.post, "title", "");
+                    this.post.slug = _get(data.post, "slug", "");
+                    this.post.featured_image = _get(
+                        data.post,
+                        "featured_image",
+                        ""
+                    );
+                    this.post.seo_title = _get(data.post, "seo_title", "");
+                    this.post.seo_desc = _get(data.post, "seo_desc", "");
+                    this.post.body = _get(data.post, "body", "");
+                    this.post.categories = _get(data.post, "categories", []);
+                    this.post.tags = _get(data.post, "tags", []);
+                    this.post.published_at = _get(
+                        data.post,
+                        "published_at",
+                        ""
+                    );
+                    this.categories = _get(data, "categories", []);
+                    this.tags = _get(data, "tags", []);
                 })
                 .catch((err) => {
                     this.$router.go(-1);

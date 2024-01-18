@@ -77,4 +77,24 @@ class Post extends Model
     {
         return $this->belongsToMany(Video::class, 'posts_videos', 'post_id', 'video_id');
     }
+
+    /**
+     * Define users tags relationship
+     *
+     * @return BelongsToMany
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Self::class, 'posts_tags', 'post_id', 'tag_id');
+    }
+
+    /**
+     * Define users categories relationship
+     *
+     * @return BelongsToMany
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Self::class, 'posts_cat', 'post_id', 'cat_id');
+    }
 }

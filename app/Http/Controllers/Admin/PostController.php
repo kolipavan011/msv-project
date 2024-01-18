@@ -74,11 +74,18 @@ class PostController extends Controller
             ->when(request()->query('videos', 0) == 1, function (Builder $query) {
                 return $query->with('videos:id');
             }, function (Builder $query) {
-                return $query;
+                return $query->with(['tags:id,title', 'categories:id,title']);
             })
             ->findOrFail($id);
 
-        return response()->json($post);
+        return response()->json([
+            'post' => $post,
+            'categories' => Post::query()->where('post_type', Post::CATEGORY)->get([
+                'id',
+                'title'
+            ]),
+            'tags' => Post::query()->where('post_type', Post::TAG)->get(['id', 'title']),
+        ]);
     }
 
     /**
@@ -91,13 +98,22 @@ class PostController extends Controller
         $data = $request->validated();
 
         $post = Post::query()
-            ->find($id);
-
-        if (!$post) {
-            $post = new Post(['user_id' => 1]);
-        }
+            ->findOrFail($id);
 
         $post->fill($data)->save();
+
+        if ($post->post_type == Post::POST) {
+            $tagsToSync = collect($request->input('tags', []))->map(function ($tag) {
+                return (string) $tag['id'];
+            })->toArray();
+
+            $catToSync = collect($request->input('categories', []))->map(function ($tag) {
+                return (string) $tag['id'];
+            })->toArray();
+
+            $post->tags()->sync($tagsToSync);
+            $post->categories()->sync($catToSync);
+        }
 
         return response()->json(['massage' => 'success']);
     }

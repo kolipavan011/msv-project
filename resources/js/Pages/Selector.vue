@@ -99,7 +99,7 @@ export default {
     },
 
     methods: {
-        async getPost() {
+        getPost() {
             this.isReady = false;
             this.request()
                 .get("/posts/" + this.id, {
@@ -109,12 +109,8 @@ export default {
                 })
                 .then(({ data }) => {
                     this.isReady = true;
-                    this.title = data.title;
-                    this.selection = data.videos.map((i) => i.id);
-                })
-                .catch(({ response }) => {
-                    this.isReady = true;
-                    this.$toast.error(response.statusText);
+                    this.title = data.post.title;
+                    this.selection = data.post.videos.map((i) => i.id);
                 });
         },
 
@@ -185,7 +181,8 @@ export default {
     },
 
     mounted() {
-        this.getPost().then(() => this.fetchMedia());
+        this.getPost();
+        this.fetchMedia();
     },
 };
 </script>
