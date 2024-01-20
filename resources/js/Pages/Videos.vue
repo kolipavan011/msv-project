@@ -197,6 +197,11 @@ export default {
                 contentProps: {
                     media: folder,
                 },
+                contentEmits: {
+                    onDelete: () => {
+                        this.fetchVideos();
+                    },
+                },
             });
         },
 

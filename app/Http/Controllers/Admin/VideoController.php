@@ -91,9 +91,12 @@ class VideoController extends Controller
      */
     public function destroy($id): JsonResponse
     {
-        $post = Video::query()
-            ->findOrFail($id)
-            ->delete();
+        $video = Video::query()
+            ->findOrFail($id);
+
+        if (Storage::delete($video->path)) {
+            $video->delete();
+        }
 
         return response()->json(null, 204);
     }

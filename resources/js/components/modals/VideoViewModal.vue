@@ -35,7 +35,9 @@
             >
                 Close
             </button>
-            <button type="button" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-danger" @click="deleteVideo">
+                Delete
+            </button>
             <button type="button" class="btn btn-primary" @click="updateVideo">
                 Update
             </button>
@@ -47,6 +49,8 @@ export default {
     props: {
         media: { type: Object, required: true },
     },
+
+    emits: ["onDelete"],
 
     methods: {
         updateVideo(e) {
@@ -64,6 +68,22 @@ export default {
                     this.$toast.error(response.statusText);
                 });
         },
+
+        deleteVideo(e) {
+            e.target.innerText = "Deleting ...";
+            this.request()
+                .delete("videos/" + this.media.id)
+                .then(() => {
+                    this.$emit("onDelete");
+                    this.$toast.success("Video Updated");
+                    this.close();
+                })
+                .catch(({ response }) => {
+                    e.target.innerText = "Delete";
+                    this.$toast.error(response.statusText);
+                });
+        },
+
         close() {
             this.$vbsModal.close();
         },
