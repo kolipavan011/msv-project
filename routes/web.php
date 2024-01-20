@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\ViewController;
+use App\Http\Controllers\Admin\UploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 Route::prefix('api')->group(function () {
+
+    // Uploads Route
+    Route::prefix('upload')->group(function () {
+        Route::post('/{id}', [UploadController::class, 'store']);
+        Route::delete('/{id}', [UploadController::class, 'destroy']);
+    });
+
     // Users Route
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);

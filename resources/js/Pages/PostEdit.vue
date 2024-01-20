@@ -92,6 +92,7 @@
                                     class="btn btn-secondary"
                                     type="button"
                                     id="button-addon2"
+                                    @click="openImageModal()"
                                 >
                                     New Image
                                 </button>
@@ -186,6 +187,7 @@ import _get from "lodash/get";
 import NProgress from "nprogress";
 import { VueEditor } from "vue3-editor";
 import PostPublishModal from "../components/modals/PostPublishModal";
+import ImageAddModal from "../components/modals/ImageAddModal";
 
 export default {
     name: "posts-edit",
@@ -284,6 +286,23 @@ export default {
                 },
                 contentEmits: {
                     onUpdate: this.publishPost,
+                },
+            });
+        },
+
+        openImageModal() {
+            this.$vbsModal.open({
+                content: ImageAddModal,
+                staticBackdrop: true,
+                center: true,
+                contentProps: {
+                    featureImage: this.post.featured_image,
+                    id: this.id,
+                },
+                contentEmits: {
+                    onUpdate: () => {
+                        this.getPost();
+                    },
                 },
             });
         },
