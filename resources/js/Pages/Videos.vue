@@ -46,13 +46,26 @@
                     </div>
                 </div>
                 <div class="col-6 text-end">
-                    <button
-                        type="button"
-                        class="btn btn-warning btn-sm"
-                        @click="createFolder()"
+                    <div
+                        class="btn-group"
+                        role="group"
+                        aria-label="Basic example"
                     >
-                        New Folder
-                    </button>
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm"
+                            @click="deleteFolder"
+                        >
+                            Delete
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-warning btn-sm"
+                            @click="createFolder()"
+                        >
+                            New Folder
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -233,6 +246,24 @@ export default {
                 .catch(({ response }) => {
                     this.$toast.error(response.statusText);
                     this.isReady = true;
+                });
+        },
+
+        deleteFolder(e) {
+            e.target.innerText = "Deleting";
+
+            let folder_id = this.folderTrack[this.folderTrack.length - 1].id;
+
+            this.request()
+                .delete("/folders/" + folder_id)
+                .then((data) => {
+                    e.target.innerText = "Delete";
+                    this.prevFolder();
+                    console.log(data);
+                })
+                .catch((error) => {
+                    e.target.innerText = "Delete";
+                    console.log(error);
                 });
         },
 
