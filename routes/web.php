@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\ViewController;
 use App\Http\Controllers\Admin\UploadController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 Route::prefix('api')->group(function () {
+
+    //Dashborad route
+    Route::get('dashboard', [DashboardController::class, 'index']);
 
     // Uploads Route
     Route::prefix('upload')->group(function () {
