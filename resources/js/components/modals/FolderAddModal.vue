@@ -42,6 +42,13 @@ export default {
 
     emits: ["onCreate"],
 
+    props: {
+        folder: {
+            type: String,
+            required: true,
+        },
+    },
+
     data() {
         return {
             title: null,
@@ -53,6 +60,7 @@ export default {
             this.request()
                 .post("/folders/create", {
                     name: this.title,
+                    parent: this.folder,
                 })
                 .then(({ data }) => {
                     this.$emit("onCreate");

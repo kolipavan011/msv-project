@@ -211,10 +211,15 @@ export default {
         },
 
         createFolder() {
+            let folder_id = this.folderTrack[this.folderTrack.length - 1].id;
+
             this.$vbsModal.open({
                 content: FolderAddModal,
                 staticBackdrop: true,
                 center: true,
+                contentProps: {
+                    folder: folder_id,
+                },
                 contentEmits: {
                     onCreate: () => {
                         this.$vbsModal.close();
