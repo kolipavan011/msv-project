@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\ViewController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::prefix('api')->group(function () {
+//Auth Routes
+Route::get('/dashmin-login', [AuthController::class, 'show'])->name('login');
+Route::post('/dashmin-auth', [AuthController::class, 'login'])->name('auth');
+Route::get('/dashmin-logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('dashmin/{view?}', [ViewController::class, 'index'])->middleware(Authenticate::class)->where('view', '(.*)')->name('dashmin');
+
+Route::prefix('api')->middleware(Authenticate::class)->group(function () {
 
     //Dashborad route
     Route::get('dashboard', [DashboardController::class, 'index']);
@@ -67,8 +75,4 @@ Route::prefix('api')->group(function () {
         Route::post('/{id}', [FolderController::class, 'update']);
         Route::delete('/{id}', [FolderController::class, 'destroy']);
     });
-});
-
-Route::prefix('dashmin')->group(function () {
-    Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('dashmin');
 });
