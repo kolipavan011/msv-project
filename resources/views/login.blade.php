@@ -22,7 +22,7 @@
                     <h5 class="card-title text-uppercase text-center">Login to Dashboard</h5>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('auth') }}">
+                    <form method="post" action="{{ route('login') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label">Email address</label>

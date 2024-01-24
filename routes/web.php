@@ -26,7 +26,7 @@ Route::view('/', 'welcome');
 
 //Auth Routes
 Route::get('/dashmin-login', [AuthController::class, 'show'])->name('login');
-Route::post('/dashmin-auth', [AuthController::class, 'login'])->name('auth');
+Route::post('/dashmin-login', [AuthController::class, 'login']);
 Route::get('/dashmin-logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('dashmin/{view?}', [ViewController::class, 'index'])->middleware(Authenticate::class)->where('view', '(.*)')->name('dashmin');
 

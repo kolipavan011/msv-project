@@ -58,6 +58,13 @@
                         <SettingIcon :size="42" />
                         <div>Setting</div>
                     </div>
+                    <a
+                        href="/dashmin-logout"
+                        class="icon-item text-white text-center"
+                    >
+                        <ArrowLeft :size="42" />
+                        <div>Logout</div>
+                    </a>
                 </div>
             </div>
             <div id="app-main" class="col-md-11">
@@ -76,6 +83,7 @@ import NoteIcon from "icon/Note";
 import NotebookIcon from "icon/NoteBook";
 import SettingIcon from "icon/AccountSettings";
 import MovieIcon from "icon/Movie";
+import ArrowLeft from "icon/ArrowLeftCircle";
 
 export default {
     name: "app",
@@ -89,6 +97,7 @@ export default {
         NotebookIcon,
         NoteIcon,
         MovieIcon,
+        ArrowLeft,
     },
     data() {
         return {
